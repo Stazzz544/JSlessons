@@ -29,7 +29,7 @@ const options = {
 	height: 1024,
 	colors: {
 		border: 'black',
-		bg: 'red'
+		bg: 'red',
 	}
 };
 
@@ -178,5 +178,5 @@ const options = {
 	}
 };
 
-const {border, bg} = options.colors; // деструктуризация - вытаскивание кусочков из объектов в качестве отдельных переменных
+const {bg, border} = options.colors; // деструктуризация - вытаскивание кусочков из объектов в качестве отдельных переменных
 console.log(border);//black
