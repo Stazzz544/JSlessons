@@ -10,10 +10,10 @@ const personalMivieDB = {
 	toggleVisibleMyDB: function () {
 		if (personalMivieDB.privat == false) {
 			personalMivieDB.privat = true;
-			console.log(personalMivieDB.privat);
+			console.log(`Значение изменилось на : ${personalMivieDB.privat}`);
 		} else {
 			personalMivieDB.privat = false;
-			console.log(personalMivieDB);
+			console.log(`Значение изменилось на : ${personalMivieDB.privat}`);
 		}
 	},
 
@@ -27,19 +27,43 @@ const personalMivieDB = {
 		//isNaN - is not a number - пользовательввёл не число - если не число - то вернёт true
 	},
 
+	//СПОСОБ I - ограниченное количество вопросов.
+	// writeYourGenres: function () {
+	// 	for(let i = 1; i <= 3; i++){
+	// 		let genre = prompt(`Ваш любимый жанр под номером ${i}`);
+	// 			while (genre == null || genre == ''){
+	// 				alert('вы вели некорректные данные или не ввели их вообще!')
+	// 				genre = prompt(`Ваш любимый жанр под номером ${i}`);
+	// 			}
+	// 		personalMivieDB.genres[i-1] = genre;
+	// 		// personalMivieDB.genres[i - 1] = prompt(`Ваш любимый жанр под номером ${i}`); второй вариант записи
+	// 	}
+	// 	personalMivieDB.genres.forEach((item, i) => {
+	// 		console.log(`любимый жанр под номером ${i + 1} -  это ${item}`);
+	// 	});
+	// },
+
+	//СПОСОБ II
+	//способ с неограниченным количеством жанров. номер к жанру добавляется динамически
 	writeYourGenres: function () {
-		for(let i = 1; i <= 3; i++){
-			let genre = prompt(`Ваш любимый жанр под номером ${i}`);
-				while (genre == null || genre == ''){
-					genre = prompt(`Ваш любимый жанр под номером ${i}`);
-				}
-			personalMivieDB.genres[i-1] = genre;
-			// personalMivieDB.genres[i - 1] = prompt(`Ваш любимый жанр под номером ${i}`); второй вариант записи
+		for(let i = 1; i < 2; i++){
+			let genres = prompt(`Ваши любимые жанры через запятую`).toLowerCase();
+
+			if (genres === '' || genres == null) {
+				console.log('Вы ввели некорректные данные или не ввели их вообще');
+				i--;
+			} else {
+				personalMivieDB.genres = genres.split(',');//через какой символ разделяем
+
+				personalMivieDB.genres.sort();
+			}
 		}
-		personalMivieDB.genres.forEach(function(item, i){
-			console.log(`любимый жанр ${i+1}  это ${item}`);
+
+		personalMivieDB.genres.forEach((item, i) => {
+			console.log(`любимый жанр под номером ${i + 1} -  это ${item}`);
 		});
 	},
+
 
 	showMyDB: function (){
 		if (personalMivieDB.privat == false) {
