@@ -64,5 +64,5 @@ console.log(typeof(!!'4444')); //boolean
 
 
 
-let x = [] + 1 + 2
+let x = [] + 1 + 2;
 console.log(x);
