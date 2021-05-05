@@ -31,7 +31,7 @@ for (let i = 0; i < hearts.length; i++) {
 // во внутрь передаём callback. Каждый элемент - это item, 
 // второй аргумент - это номер по порядку, а третий аргумент - это ссылка на массив
 hearts.forEach(item => {
-	item.style.backgroundColor = 'yellow'
+	item.style.backgroundColor = 'yellow';
 });
 
 //==========================================
@@ -56,15 +56,16 @@ document.body.append(div);
 document.querySelector('.wrapper').append(div);
 
 //поместить элемент в переменную и так же добавить тег div в конец wrapper
-wrapper.append(div)
+wrapper.append(div);
 
 //добавить div в начало wrapper
-wrapper.prepend(div)
+wrapper.prepend(div);
 
 //метод before и after
 hearts[1].before(div);
 hearts[2].after(div);
 
+///УДАЛЕНИЕ
 //удаление элементов со страницы
 circles[2].remove();
 
