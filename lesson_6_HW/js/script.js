@@ -16,7 +16,7 @@ const personalMobieDB =  {
 			lastMovies: function (movies) {
 				for (let i = 0; i < 3; i++){
 					let a = prompt('Какой последний фильм вы посмотрели?', 'максимум 10 символов');
-						while (a == null || a == '' || a.length > 10) {
+						while (a == null || a == '' || a.length > 10 ) {
 							alert('Введены не коректные данные, повторите попытку');
 							a = prompt('Какой последний фильм вы посмотрели?', 'максимум 10 символов');
 						}
@@ -59,7 +59,7 @@ const personalMobieDB =  {
 			},
 			whiteYourGenres: function (arrGenre,) {
 				for (let i = 1 ; i < 4; i++) {
-					let a = prompt(`Назовите ваш любимый жанр под номером ${i}`)
+					let a = prompt(`Назовите ваш любимый жанр под номером ${i}`);
 					
 					if (isNaN(a) == false || a == '' || a == false) {
 						alert('Введены не корректные данные');
