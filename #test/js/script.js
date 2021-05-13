@@ -1,18 +1,34 @@
-
-
-function buyCar (car, callback) {
-	console.log(`я купил ${car}`);
-	callback();
+function sum (a, b ) {
+	console.log(a + b);
 }
 
-function money(cash) {
-	// console.log(`я потратил ${cash}`)
-	console.log('я потратил' + cash());
+sum(44, 232);
+
+
+
+const summ = function (a, b) {
+	console.log(a + b)
+};
+
+summ(12, 55);
+
+const arrowSumm = (a, b) => {
+	console.log(a + b);
+};
+
+arrowSumm(334, 669);
+
+
+function helloWorld (hello, world) {
+	hello(); world();
 }
 
-function cash (){
-	console.log('200$')
+function hello () {
+	console.log('hello')
 }
 
-// buyCar('ferrari', money(cash));
-buyCar ('Ferrari', ()=> money(cash));
+function world () {
+	console.log('world')
+}
+
+helloWorld(hello, world);
