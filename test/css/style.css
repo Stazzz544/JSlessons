@@ -1,0 +1,46 @@
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background: blanchedalmond;
+	border: 2px black solid;
+	width: 400px ;
+	padding: 20px;
+}
+.btn {
+	background-color: greenyellow;
+	height: 30px;
+	width: 50px;
+	font-size: 20px;
+}
+.input-1 {
+	margin-top: 20px;
+	display: block;
+}
+.input-2 {
+	margin-top: 20px;
+	display: block;
+}
+.result {
+	border: black solid 1px;
+	width: 300px	;
+	height: 30px;
+	background: white;
+	text-align: center;
+
+}
+.button-wripper{
+	display: flex;
+	margin-top: 20px;
+	justify-content: space-around;
+	width: 100%;
+}
+.btn:nth-child(1) {
+	line-height: 0px;
+}
+.btn:nth-child(2) {
+	line-height: 20px ;
+}
+.btn:nth-child(3) {
+	line-height: 32px ;
+}
