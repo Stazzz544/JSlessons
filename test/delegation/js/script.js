@@ -4,13 +4,9 @@ window.addEventListener('DOMContentLoaded', () => {
 	
 
 	ul.addEventListener('click', (e) => {
-		// console.log(e.target.classList.value);
-		console.log(e.target);
-		// console.log(e.target.tagName);
-		if (e.target.tagName == 'LI' && e.target.classList.value != 'abc') {
-			console.log('asad');
-		} else if (e.target.classList.contains('abc')) {
-			console.log('its jhonny');
+		if (e.target.tagName == 'LI') {
+			console.dir(e.target);
+			e.target.innerHTML *= 2;
 		}
 	});
 
