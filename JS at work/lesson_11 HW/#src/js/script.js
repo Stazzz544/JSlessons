@@ -177,19 +177,19 @@ window.addEventListener('DOMContentLoaded', () =>{
 
 		//
 		class MenuCard {
-			constructor(src, alt, subtitle, descr, price, parentSelector){
+			constructor(src, alt, title, descr, price, parentSelector) {
 				this.src = src;
 				this.alt = alt;
-				this.subtitle = subtitle;
+				this.title = title;
 				this.descr = descr;
-				this.price = price;
-				this.curce = 27;
 				this.parent = document.querySelector(parentSelector);
-				this.calculator ();
+				this.price = price;
+				this.curse = 27;
+				this.curseCalc();
 			}
 
-			calculator () {
-				this.price = this.price * this.curce;
+			curseCalc(){
+				this.price = this.price * this.curse;
 			}
 
 			render() {
@@ -197,7 +197,7 @@ window.addEventListener('DOMContentLoaded', () =>{
 				element.innerHTML = `
 				<div class="menu__item">
 					<img src=${this.src} alt=${this.alt}>
-					<h3 class="menu__item-subtitle">${this.subtitle}</h3>
+					<h3 class="menu__item-subtitle">${this.title}</h3>
 					<div class="menu__item-descr">${this.descr}</div>
 					<div class="menu__item-divider"></div>
 					<div class="menu__item-price">
@@ -210,14 +210,13 @@ window.addEventListener('DOMContentLoaded', () =>{
 			}
 		}
 
-		new MenuCard (
+		new MenuCard(
 			"img/tabs/vegy.jpg",
 			"vegy",
 			'Меню "Фитнес"',
 			'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
 			22,
 			'.menu .container'
-
 		).render();
 
 });
