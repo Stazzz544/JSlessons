@@ -177,20 +177,19 @@ window.addEventListener('DOMContentLoaded', () =>{
 
 		//
 		class MenuCard {
-			constructor (src, alt, title, descr, price, parentSelector){
+			constructor(src, alt, subtitle, descr, price, parentSelector){
 				this.src = src;
 				this.alt = alt;
-				this.title = title;
+				this.subtitle = subtitle;
 				this.descr = descr;
 				this.price = price;
+				this.curce = 27;
 				this.parent = document.querySelector(parentSelector);
-				this.dollar = 27;
-				this.converter();
-
+				this.calculator ();
 			}
 
-			converter () {
-				this.price = this.price * this.dollar;
+			calculator () {
+				this.price = this.price * this.curce;
 			}
 
 			render() {
@@ -198,7 +197,7 @@ window.addEventListener('DOMContentLoaded', () =>{
 				element.innerHTML = `
 				<div class="menu__item">
 					<img src=${this.src} alt=${this.alt}>
-					<h3 class="menu__item-subtitle">${this.title}</h3>
+					<h3 class="menu__item-subtitle">${this.subtitle}</h3>
 					<div class="menu__item-descr">${this.descr}</div>
 					<div class="menu__item-divider"></div>
 					<div class="menu__item-price">
@@ -218,5 +217,7 @@ window.addEventListener('DOMContentLoaded', () =>{
 			'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
 			22,
 			'.menu .container'
+
 		).render();
+
 });

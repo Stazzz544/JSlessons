@@ -86,7 +86,7 @@ window.addEventListener('DOMContentLoaded', () =>{
 					second = timer.querySelector('#seconds'),
 					timeInterval = setInterval(updateClock, 1000);
 
-			updateClock();//!!!ЗАПУСКАЕМ ТАЙМЕР ПЕРВЫЙ РАЗ ВРУЧНУЮ, ЧТОБЫ ТАЙМЕР НЕ МОРГАЛ!
+			updateClock()//!!!ЗАПУСКАЕМ ТАЙМЕР ПЕРВЫЙ РАЗ ВРУЧНУЮ, ЧТОБЫ ТАЙМЕР НЕ МОРГАЛ!
 			//функция обновления таймера раз в секунду
 			function updateClock() {
 				const t = getTimeRemaining(endtime); //рассчет времени, который остался на этот момент. в t попадёт объект return
@@ -175,49 +175,77 @@ window.addEventListener('DOMContentLoaded', () =>{
 			}
 		}
 
-		//
+		//cards (классы)
 		class MenuCard {
-			constructor(src, alt, subtitle, descr, price, parentSelector){
+			constructor(src, alt, title, descr, price, parentSelector, ...classes){
 				this.src = src;
 				this.alt = alt;
-				this.subtitle = subtitle;
+				this.title = title;
 				this.descr = descr;
 				this.price = price;
-				this.curce = 27;
+				this.classes = classes;//массив
 				this.parent = document.querySelector(parentSelector);
-				this.calculator ();
+				this.transfer = 27;
+				this.changeToUAH();
 			}
 
-			calculator () {
-				this.price = this.price * this.curce;
+			changeToUAH() {
+				this.price = this.price * this.transfer;
 			}
 
 			render() {
 				const element = document.createElement('div');
+
+				if (this.classes.length === 0) { //дефолтный класс
+					this.element = 'menu__item';
+					element.classList.add(this.element);
+				} else {
+					this.classes.forEach(className => element.classList.add(className));
+				}
+
 				element.innerHTML = `
-				<div class="menu__item">
 					<img src=${this.src} alt=${this.alt}>
-					<h3 class="menu__item-subtitle">${this.subtitle}</h3>
+					<h3 class="menu__item-subtitle">${this.title}"</h3>
 					<div class="menu__item-descr">${this.descr}</div>
 					<div class="menu__item-divider"></div>
 					<div class="menu__item-price">
 						<div class="menu__item-cost">Цена:</div>
 						<div class="menu__item-total"><span>${this.price}</span> грн/день</div>
 					</div>
-				</div>
 				`;
 				this.parent.append(element);
 			}
 		}
-
-		new MenuCard (
+		new MenuCard(
 			"img/tabs/vegy.jpg",
 			"vegy",
 			'Меню "Фитнес"',
 			'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
+			9,
+			'.menu .container',
+			// 'menu__item',
+			// 'big'
+
+		).render(); // можно не присваивать объеект переменой, а сделать просто объект на месте.
+
+		new MenuCard(
+			"img/tabs/elite.jpg",
+			"elite",
+			'Меню "“Премиум”"',
+			'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
+			19,
+			'.menu .container',
+			'menu__item',
+			'big'
+		).render(); // можно не присваивать объеект переменой, а сделать просто объект на месте.
+		new MenuCard(
+			"img/tabs/post.jpg",
+			"post",
+			'Меню "Постное"',
+			'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
 			22,
-			'.menu .container'
-
-		).render();
-
+			'.menu .container',
+			'menu__item',
+			'big'
+		).render(); // можно не присваивать объеект переменой, а сделать просто объект на месте.
 });
