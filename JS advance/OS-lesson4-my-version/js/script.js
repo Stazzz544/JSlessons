@@ -105,38 +105,50 @@ window.addEventListener('DOMContentLoaded', () =>{
 
 		//==========Modal============
 		const modalTrigger = document.querySelectorAll('[data-modal]'),
-				modal = document.querySelector('.modal'),
-				modalClose = document.querySelector('[data-close]');
+				modal = document.querySelector('.modal');
 
 		
 		modalTrigger.forEach((e) => {
+			
 			e.addEventListener('click', () => {
 				addClassShow(modal);
 				bodyLock ();
 				clearInterval(modalTimerId);
+				let fix = document.querySelector('.modal__dialog');
+				removeClassHide(fix);
 			});
 		
 		modal.addEventListener('click', (e) => {
 			if (e.target === modal) {
-				removeClassShow(modal);
-				bodyFree();
+				removeNewModalTag ();
 			}
 		});
 
 		document.addEventListener('keydown', (event) => {
 			if (event.code == 'Escape' && modal.classList.contains('show')) {
-				removeClassShow(modal);
-				bodyFree();
+				removeNewModalTag ();
 			}
 		});
 	
-		modalClose.addEventListener('click', () => {
-			removeClassShow(modal);
-			bodyFree();
+		
+		modal.addEventListener('click', (e) => {
+			if (e.target.className =='modal__close'){
+				removeNewModalTag ();
+				}
 			});
 		});
-		
-		
+
+		function removeNewModalTag () {
+			const prevModalDialog = document.querySelector('.modal__dialog');
+				console.log(prevModalDialog.classList.contains('modal__dialog-new'));
+				if (prevModalDialog.classList.contains('modal__dialog-new')){
+					console.log('delete');
+					document.querySelector('.modal__dialog-new').remove();
+				}
+				removeClassShow(modal);
+				bodyFree();
+				removeClassHide(prevModalDialog);
+		}
 
 
 		function bodyLock () {
@@ -157,10 +169,12 @@ window.addEventListener('DOMContentLoaded', () =>{
 		function openModal(){
 			addClassShow(modal);
 		}
-
+		function removeClassHide(item) {
+			item.classList.remove('hide');
+		}
 		//таймер вызова модального окна
 	
-		//const modalTimerId = setTimeout(openModal, 12000);
+		const modalTimerId = setTimeout(openModal, 52000);
 		/*
 		делаем появление модалки при долистывании до низа страницы
 		 складываем свойство которое отвечает за прокрученную часть(pageYOffset), складываем со свойством которое отвечает за высоту клиента(document.documentElement.clientHeight видимая часть) и сравним ее scrollHeight(с полной прокруткой)
@@ -253,100 +267,95 @@ window.addEventListener('DOMContentLoaded', () =>{
 
 
 //=========================================================================================================//
-//ОТПРАВКА ФОРМЫ (будем использовать XML http request, не современный вариант)
+	//ОТПРАВКА ФОРМЫ (будем использовать XML http request, не современный вариант)
 
-//список фраз для разных ситуаций при отправке формы
-const message = {
-   loading: 'загрузка',
-   success: 'спасибо, скоро мы с вами свяжемся',
-   failure: 'что-то пошло не так...'
-};
+	//список фраз для разных ситуаций при отправке формы
+	const message = {
+		loading: 'загрузка',
+		success: 'спасибо, скоро мы с вами свяжемся',
+		failure: 'что-то пошло не так...'
+	};
 
+	//получаем все формы со страницы
+	const forms = document.querySelectorAll('form');
 
+	//берем все наши формы и под каждую подвязываем функцию postData
+	forms.forEach(item => {
+		postData(item);
+	});
 
-//получаем все формы со страницы
-const forms = document.querySelectorAll('form');
+	//функция, которая отвечает за постинг данных
+	function postData(form) {
+		form.addEventListener('submit', (e) => {
+			
+			//submith - событие, срабатывающее каждый раз при отправке формы
+			e.preventDefault();
+			showSpinner ();
+			//создаём объект РЕКВЕСТ
+			const request = new XMLHttpRequest();
+			//настраиваем запрос
+			request.open('POST', 'mailer/server.php');//POST -метод, server.php - 
+			request.setRequestHeader('Content-type', 'application/json');// 
+			const formData = new FormData(form); //создаём конструктор, form
 
+			const object = {};
+			formData.forEach(function(value, key) {
+				object[key] = value;
+			});
+			const json = JSON.stringify(object);
 
+			request.send(json);
+			request.addEventListener('load', () => {
+				if (request.status === 200) {
+					console.log(request.response);// увидеть, что запрос прошел
+						form.reset();//очистка формы
+							showMessageModalAfterTryToSand( message.success);//выведем пользователю сообщение'спасибо, скоро мы с вами свяжемся'
+				} else {
+					removeClassShow(modal);
+					showMessageModalAfterTryToSand(message.failure);
+				}
+			});
+		});
+	} 
 
-//берем все наши формы и под каждую подвязываем функцию postData
-forms.forEach(item => {
-   postData(item);
-});
-
-
-//функция, которая отвечает за постинг данных
-function postData(form) {
-   form.addEventListener('submit', (e) => {
-      //submith - событие, срабатывающее каждый раз при отправке формы
-      e.preventDefault();
-
-
-      const statusMessage = document.createElement('div');
-      statusMessage.classList.add('status');
-      statusMessage.textContent = message.loading;// (добавляем в div текст) пользователь увидит 'загрузка' сразу после нажатия кнопки
-      //отправляем message на страницу
-      form.append(statusMessage);//добавляем к форме сообщение(см. выше)
-
-
-      //создаём объект РЕКВЕСТ
-      const request = new XMLHttpRequest();
-      //настраиваем запрос
-      request.open('POST', 'server.php');//POST -метод, server.php - путь куда мы ссылаемся
-      //подготовка данных для отправки из формы
-      //Возможно отправка двумя способами -  FORMDATA и JSON; Ориентируемся на сервер или на бэкэндера...
-
-
-      //вариант2 (с json)
-
-
-      //настраиваем заголовки, которые будут говорить серверу, а что именно приходит..:
-      request.setRequestHeader('Content-type', 'application/json');// !!!если мы используем связку http request + FormData(НЕ JSON) заголовок устанавливается автоматически и его устанавливать не нужно! иначе мы не получим данные на сервере!!! суперважнАА!
-      //Content-type - тип контентаб 'multipart/form-data' - пишется согласно документации FormData
-
-
-      
-      const formData = new FormData(form); //создаём конструктор, form - та форма, откуда собираем данные
-      //!!!ВАЖНО!!!У ИНПУТОВ , ОПШЕНОВ, ТЕКСТЭРИЕВ И Т.Д. ОБЯЗАН БЫТЬ АТРИБУТ name!! иначе FormData не найдёт инпут(и т.д.) и не возьмёт из него value
-
-
-      //теперь FormData нужно превратить в JSON
-      const object = {};//создадим пустой объект
-      formData.forEach(function(value, key) {//перебераем formData и поместим всё в object
-         object[key] = value;
-      });
-
-
-      const json = JSON.stringify(object);
-      /* php нативно не умеет работать с форматом json. Чаще всего такие данные мы будем отправлять на сервера с помощю node.js */
-
-
-
-
-      request.send(json);//formData - есть body так как мы что-то отправляем
-      request.addEventListener('load', () => { //load -отслеживаем загрузку нашего запроса
-         if (request.status === 200) { //статус 200 - запрос успешно прошел
-            console.log(request.response);// увидеть, что запрос прошел
-
-
-            /*array(2) {  - массив
-               ["name"]=>
-               string(7) "Стас"
-               ["phone"]=>
-               string(16) "+7 952 200 07 11"
-               }*/
-               form.reset();//очистка формы
-               setTimeout(() => {//удаляем блок со страницы через 2 секунды
-                     statusMessage.remove();
-                  }, 2000);
-            statusMessage.textContent = message.success;//выведем пользователю сообщение'спасибо, скоро мы с вами свяжемся'
-         } else {
-            statusMessage.textContent = message.failure;// выведем сообщение 'что-то пошло не так...'
-         }
-      });
-   });
-} 
-
+	function showSpinner () {
+		const prevModalDialog = document.querySelector('.modal__dialog');
 		
+
+		prevModalDialog.classList.add('hide');
+		openModal();//отвечает за открытие модальных окон
+
+		const resultMessageModal = document.createElement('div');
+		resultMessageModal.classList.add('modal__dialog', 'modal__dialog-new');
+		resultMessageModal.innerHTML = `
+
+		<div class="modal__content">
+			<div data-close class="modal__close">×</div>
+			<div class="modal__title">
+				<img src="img/spinner.svg" alt="spinner">
+			</div>
+		</div>
+		`;
+		modal.prepend(resultMessageModal);
+	}
+
+	function showMessageModalAfterTryToSand(message) {
+		const prevModalDialog = document.querySelector('.modal__dialog');
+		
+
+		prevModalDialog.classList.add('hide');
+		openModal();//отвечает за открытие модальных окон
+
+		const resultMessageModal = document.createElement('div');
+		resultMessageModal.classList.add('modal__dialog', 'modal__dialog-new');
+		resultMessageModal.innerHTML = `
+		<div class="modal__content">
+			<div data-close class="modal__close">×</div>
+			<div class="modal__title">${message}</div>
+		</div>
+		`;
+		modal.prepend(resultMessageModal);
+	}
+
 
 });
