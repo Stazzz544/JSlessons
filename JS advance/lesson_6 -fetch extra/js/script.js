@@ -1,5 +1,5 @@
 // https://jsonplaceholder.typicode.com/
-/*
+
 const requestURL = 'https://jsonplaceholder.typicode.com/usrs'; // по этому URL мы будем делать запросы
 
 const xhr = new XMLHttpRequest();
@@ -37,14 +37,16 @@ xhr.onload = () => {
 		console.log(JSON.parse(xhr.response));
 	}
 };
-// 3)
-// тут мы сразу просим, чтобы тип объекта, который придёт был json
-//xhr.responseType = 'json';
-//console.log(xhr.response);//получим сразу распарсеный готовый объект
+/* 
+3)
+тут мы сразу просим, чтобы тип объекта, который придёт был json
+xhr.responseType = 'json';
+console.log(xhr.response);//получим сразу распарсеный готовый объект
 
-//==ОБРАБОТКА ОШИБОК===
-//если сервер даст ответ, из серии - такого пользователя в базе нет - то это не будет считаться ошибкой
-// и мы не будем попадать в .onerror
+==ОБРАБОТКА ОШИБОК===
+если сервер даст ответ, из серии - такого пользователя в базе нет - то это не будет считаться ошибкой
+и мы не будем попадать в .onerror */
+
 xhr.onerror = () => {
 	console.log(xhr.response);//получим ошибку, если она будет
 }
@@ -57,7 +59,7 @@ xhr.send();
 
 
 //НИЖЕ ПЕРЕПИСЫВАЕМ ТОЖЕ САМОЕ НА ПРОМИСАХ
-*/
+
 const requestURL = 'https://jsonplaceholder.typicode.com/users';
 
 function sendRequest (method, url) {
@@ -88,3 +90,9 @@ function sendRequest (method, url) {
 sendRequest('GET', requestURL)//метод sendRequest возвращаетн нам Promise
 	.then(data => console.log('then:', data))
 	.catch( err => console.log('err', err));
+
+
+
+
+
+
